@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Album bí mật 💘</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #f0fff0);
+      text-align: center;
+      overflow-x: hidden;
+    }
+    #passwordPrompt {
+      padding-top: 150px;
+      animation: fadeIn 1s ease;
+    }
+    input[type="password"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ff5f9e;
+      color: white;
+      border-radius: 8px;
+      margin: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+    button:hover {
+      background-color: #ff7fb0;
+      transform: scale(1.05);
+    }
+    .hidden {
+      display: none;
+    }
+    h1 {
+      color: #ff5f9e;
+      margin-top: 30px;
+      animation: slideDown 1s ease;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+      animation: fadeIn 1.2s ease;
+    }
+    .gallery img {
+      width: 250px;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+      cursor: zoom-in;
+      transform: scale(0.9);
+      opacity: 0;
+      animation: popIn 0.8s forwards;
+    }
+    .caption {
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+    .photo-card {
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .like-btn {
+      margin-top: 5px;
+      border: none;
+      background-color: transparent;
+      color: #ff6699;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .like-btn:hover {
+      transform: scale(1.1);
+    }
+    .like-btn.liked {
+      color: red;
+      font-weight: bold;
+    }
+    #lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #fff;
+      cursor: zoom-out;
+    }
+    audio {
+      display: none;
+    }
+    .letter-container {
+      margin-top: 60px;
+      animation: fadeIn 1.5s ease;
+    }
+    .open-letter-btn {
+      background-color: #ff9aa2;
+      color: white;
+      font-size: 18px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+    .open-letter-btn:hover {
+      background-color: #ffb6c1;
+      transform: scale(1.05);
+    }
+    .letter {
+      max-width: 600px;
+      margin: 30px auto 0;
+      padding: 20px;
+      background: #fffefc;
+      border: 2px solid #ffc0cb;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      font-style: italic;
+      color: #555;
+      line-height: 1.6;
+      animation: fadeIn 1s ease;
+    }
+    .letter.hidden {
+      display: none;
+    }
+    .heart {
+      font-size: 2em;
+      color: #ff4d88;
+      animation: pulse 1.5s infinite;
+      cursor: default;
+    }
+    .heart-float {
+      position: fixed;
+      color: #ff6b9b;
+      font-size: 20px;
+      animation: floatUp 4s linear forwards;
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 999;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+    }
+    @keyframes popIn {
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+  </style>
+</head>
+<body>
+<div id="passwordPrompt">
+  <h2> Xin hãy nhập mật khẩu📸</h2>
+  <h5> Gợi ý:3 : Ngày tớ nói...ý ngại qus>.< </h5>
+  <input type="password" id="passwordInput" placeholder="Password...">
+  <button onclick="checkPassword()">Enter</button>
+</div>
+<div id="albumContent" class="hidden">
+  <div class="gallery">
+    <div class="photo-card"><img src="1.jpg"><div class="caption">Beautiful</div><button class="like-btn" onclick="toggleLike(this)">🤍 Yêu thích</button></div>
+    <div class="photo-card"><img src="2.jpg"><div class="caption">Pretty</div><button class="like-btn" onclick="toggleLike(this)">🤍 Yêu thích</button></div>
+    <div class="photo-card"><img src="3.png"><div class="caption">Gorgeous</div><button class="like-btn" onclick="toggleLike(this)">🤍 Yêu thích</button></div>
+    <div class="photo-card"><img src="4.png"><div class="caption">Lovely </div><button class="like-btn" onclick="toggleLike(this)">🤍 Yêu thích</button></div>
+    <div class="photo-card"><img src="5.png"><div class="caption">Graceful </div><button class="like-btn" onclick="toggleLike(this)">🤍 Yêu thích</button></div>
+
+  <div class="letter-container">
+    <button class="open-letter-btn" onclick="toggleLetter()">📩 Mở thư</button>
+    <div class="letter hidden" id="secretLetter">
+      <p>💌 14/2, ngày Valentine đầu tiên của hai mình, thiệt sự cảm thấy thật may mắn khi có cậu 😊.Thực sự cậu là người đầu tiên cho tớ cảm giác an toàn, được là chính mình khi ở bên. Hãy cũng đồng hành, giúp đỡ, cùng nhau phát triển trên chặng đường phía trước,yêu thương bù đắp cho nhau, chia sẻ nhiều hơn để ta hiểu thêm về nhau nhé🥰. You make me feel special because you are special to me. I truly love you from the bottom of my heart.🌷</p>
+    </div>
+  </div>
+</div>
+
+<audio id="bgm" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div id="lightbox" onclick="closeZoom()"><img id="lightbox-img" src=""></div>
+
+<script>
+function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+  if (input === "06022026") {
+    document.getElementById("passwordPrompt").classList.add("hidden");
+    document.getElementById("albumContent").classList.remove("hidden");
+    const audio = document.getElementById("bgm");
+    if (audio) {
+      audio.volume = 0.4;
+      audio.play().catch(e => console.log("Autoplay bị chặn:", e));
+    }
+    setInterval(createFloatingHeart, 200);
+  } else {
+    alert("Sai mật khẩu rồi 😅");
+  }
+}
+function toggleLike(btn) {
+  btn.classList.toggle("liked");
+  btn.innerHTML = btn.classList.contains("liked") ? "❤️ Đã thích" : "🤍 Yêu thích";
+}
+function zoomImage(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').style.display = 'flex';
+}
+function closeZoom() {
+  document.getElementById('lightbox').style.display = 'none';
+}
+  function toggleLetter() {
+    document.getElementById("secretLetter").classList.toggle("hidden");
+  }
+function createFloatingHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart-float");
+  heart.textContent = "❤";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.top = "100vh";
+  heart.style.fontSize = (Math.random() * 10 + 15) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
+</script>
+</body>
+</html>
